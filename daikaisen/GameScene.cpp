@@ -27,8 +27,8 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 	{
 		GetMousePoint(&mousePos.x, &mousePos.y);
 		charaAngle = atan2(mousePos.y - charaPos.y, mousePos.x - charaPos.x) + (PI / 2);
-
 	}
+
 	// à ínÇ™à·Ç§éû
 	if (charaPos.x > mousePos.x)
 	{
@@ -47,6 +47,7 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		charaPos.y += 10 * abs(cos(charaAngle));
 	}
 
+
 	// ï`âÊèàóù
 	GameDraw();
 	return std::move(own);
@@ -55,7 +56,7 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 int GameScene::Init(void)
 {
 	charaGra = LoadGraph("image/player.png");
-	charaPos = VECTOR2(90, 90);
+	charaPos = VECTOR2(500, 210);
 	charaAngle = 0;
 	rotaAngle = 270;
 	return 0;
