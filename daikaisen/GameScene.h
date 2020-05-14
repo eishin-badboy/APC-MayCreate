@@ -26,4 +26,7 @@ private:
 	double rotaAngle;			// ‰ñ“]Šp“x
 
 	VECTOR2 enemyPos;
+	VECTOR2 bulletPos;
+	bool bulletFlag;
+	double bulAngle;
 };

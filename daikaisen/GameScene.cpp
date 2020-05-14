@@ -28,7 +28,7 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		GetMousePoint(&mousePos.x, &mousePos.y);
 		charaAngle = atan2(mousePos.y - charaPos.y, mousePos.x - charaPos.x) + (PI / 2);
 	}
-
+	
 	// ˆÊ’n‚ªˆá‚¤Žž
 	if (charaPos.x > mousePos.x)
 	{
@@ -49,9 +49,47 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 
 	float c = sqrt(pow(charaPos.x - enemyPos.x, 2) + pow(charaPos.y - enemyPos.y, 2));
 
-	if (c <= 90 + 45)
+	if (c <= 180 + 45)
 	{
-		int i = 0;
+		bulletFlag = true;
+	}
+
+	// –C’eˆ—
+	if (bulletFlag)
+	{
+		bulAngle = atan2(enemyPos.y - bulletPos.y, enemyPos.x - bulletPos.x)/* + (PI / 2)*/;
+
+		bulletPos.x += cos(bulAngle) * 6;
+		bulletPos.y += sin(bulAngle) * 6;
+		//if (bulletPos.x > enemyPos.x)
+		//{
+		//	bulletPos.x -= 15 * abs(cos(bulAngle));
+		//}
+		//if (bulletPos.x < enemyPos.x)
+		//{
+		//	bulletPos.x += 15 * abs(cos(bulAngle));
+		//}
+		//if (bulletPos.y > enemyPos.y)
+		//{
+		//	bulletPos.y -= 15 * abs(sin(bulAngle));
+		//}
+		//if (bulletPos.y < enemyPos.y)
+		//{
+		//	bulletPos.y += 15 * abs(sin(bulAngle));
+		//}
+		if (bulletPos == enemyPos)
+		{
+			bulletFlag = false;
+		}
+	}
+	else
+	{
+		bulletPos = charaPos;
+	}
+
+	if (bulletPos.x > 1280 || bulletPos.x < 0 || bulletPos.y > 800 || bulletPos.y < 0)
+	{
+		bulletFlag = false;
 	}
 
 	// •`‰æˆ—
@@ -66,6 +104,9 @@ int GameScene::Init(void)
 	charaAngle = 0;
 	rotaAngle = 270;
 	enemyPos = VECTOR2(900, 90);
+	bulletPos = charaPos;
+	bulletFlag = false;
+	bulAngle = 0;
 	return 0;
 }
 
@@ -76,10 +117,14 @@ bool GameScene::CheckGameEnd(void)
 
 bool GameScene::GameDraw(void)
 {
-	DrawRotaGraph(charaPos.x, charaPos.y, 0.5f, charaAngle, charaGra, false);
-	DrawRotaGraph(enemyPos.x, enemyPos.y, 0.5f, 0, LoadGraph("image/enemy.png"), false);
-	DrawCircle(charaPos.x, charaPos.y, 90, GetColor(255, 255, 255), false);
-	DrawCircle(enemyPos.x, enemyPos.y, 45, GetColor(255, 0, 255), false);
 
+	DrawRotaGraph(charaPos.x, charaPos.y, 0.5f, charaAngle, charaGra, true);
+	DrawRotaGraph(enemyPos.x, enemyPos.y, 0.5f, 0, LoadGraph("image/enemy.png"), true);
+	DrawCircle(charaPos.x, charaPos.y, 180, GetColor(0, 255, 255), false);
+	DrawCircle(enemyPos.x, enemyPos.y, 45, GetColor(255, 0, 255), false);
+	if (bulletFlag)
+	{
+		DrawCircle(bulletPos.x, bulletPos.y, 5, GetColor(255, 255, 255), true);
+	}
 	return true;
 }
