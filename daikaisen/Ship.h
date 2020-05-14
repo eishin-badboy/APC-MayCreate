@@ -1,0 +1,32 @@
+#pragma once
+#include <array>
+#include "VECTOR2.h"
+
+enum class SHIP_TYPE
+{
+	BB,		// íŠÍ
+	CV,		// ‹ó•ê
+	CA,		// d„
+	CL,		// Œy„
+	DD,		// ‹ì’€
+	SS,		// ö…
+	MAX
+};
+
+
+class Ship
+{
+public:
+	Ship();
+	~Ship();
+	void Draw(void);
+	void Updata(void);
+
+	VECTOR2 GetSize(void);
+
+private:
+	bool Init(void);
+	double m_speed;
+
+};
+

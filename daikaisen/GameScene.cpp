@@ -47,6 +47,12 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		charaPos.y += 10 * abs(cos(charaAngle));
 	}
 
+	float c = sqrt(pow(charaPos.x - enemyPos.x, 2) + pow(charaPos.y - enemyPos.y, 2));
+
+	if (c <= 90 + 45)
+	{
+		int i = 0;
+	}
 
 	// •`‰æˆ—
 	GameDraw();
@@ -59,6 +65,7 @@ int GameScene::Init(void)
 	charaPos = VECTOR2(500, 210);
 	charaAngle = 0;
 	rotaAngle = 270;
+	enemyPos = VECTOR2(900, 90);
 	return 0;
 }
 
@@ -69,7 +76,10 @@ bool GameScene::CheckGameEnd(void)
 
 bool GameScene::GameDraw(void)
 {
-	DrawRotaGraph(charaPos.x, charaPos.y, 1.0, charaAngle, charaGra, false);
+	DrawRotaGraph(charaPos.x, charaPos.y, 0.5f, charaAngle, charaGra, false);
+	DrawRotaGraph(enemyPos.x, enemyPos.y, 0.5f, 0, LoadGraph("image/enemy.png"), false);
+	DrawCircle(charaPos.x, charaPos.y, 90, GetColor(255, 255, 255), false);
+	DrawCircle(enemyPos.x, enemyPos.y, 45, GetColor(255, 0, 255), false);
 
 	return true;
 }

@@ -25,4 +25,5 @@ private:
 	float charaAngle;			// Ã½Ä—p‚ÌŠp“x
 	double rotaAngle;			// ‰ñ“]Šp“x
 
+	VECTOR2 enemyPos;
 };
