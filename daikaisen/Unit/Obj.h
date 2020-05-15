@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <memory>
 #include <vector>
 #include <map>
@@ -44,6 +45,9 @@ protected:
 	Vector2Dbl m_distiPos;
 	Vector2 m_size;
 	double m_angle;
-	int m_graph;
+	int m_graph;	// ‰¼’u‚«‚®‚ç‚À‚Á‚­
+	SHIP m_ship;													// ŠÍí—p‚Ì•Ï”
+	std::array<int, static_cast<int>(SHIP::MAX)> m_shipGra;			// ŠÍí‚²‚Æ‚Ì‰æ‘œ
+	std::array<double, static_cast<int>(SHIP::MAX)> m_speedTbl;		// ŠÍí‚²‚Æ‚Ì‘¬“x
 };
 
