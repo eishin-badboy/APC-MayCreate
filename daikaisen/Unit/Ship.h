@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-#include "VECTOR2.h"
+#include "../Common/VECTOR2.h"
 
 enum class SHIP_TYPE
 {

@@ -1,7 +1,8 @@
 #pragma once
-#include "VECTOR2.h"
 #include "BaseScene.h"
-#include "GameCtl.h"
+#include "../Common/GameCtl.h"
+#include "../Common/VECTOR2.h"
+
 
 #define lpSceneMng SceneMng::GetInstance()
 

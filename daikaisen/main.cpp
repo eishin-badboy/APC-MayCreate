@@ -1,7 +1,7 @@
 /* ‘åŠCí */
 
 #include "DxLib.h"
-#include "SceneMng.h"
+#include "Scene/SceneMng.h"
 
 // ---------- WinMainŠÖ”
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)

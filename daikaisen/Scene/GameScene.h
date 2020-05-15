@@ -1,10 +1,12 @@
 #pragma once
-#include "BaseScene.h"
 #include <array>
-#include "VECTOR2.h"
+#include <vector>
+#include "BaseScene.h"
+#include "../Unit/Obj.h"
+#include "../Common/VECTOR2.h"
 
-class GameScene :
-	public BaseScene
+
+class GameScene : public BaseScene
 {
 public:
 	GameScene();
@@ -19,6 +21,8 @@ private:
 	bool CheckGameEnd(void);	// 勝敗をチェック		
 	bool GameDraw(void);		// 描画処理
 
+	std::vector<shared_Obj> m_objList;		// Obj継承ｸﾗｽの可変配列
+
 	int charaGra;				// ﾃｽﾄ用ｸﾞﾗﾌｨｯｸ
 	VECTOR2 charaPos;			// ﾃｽﾄ用位地
 	VECTOR2 mousePos;			// ﾏｳｽの位置
@@ -29,4 +33,6 @@ private:
 	VECTOR2 bulletPos;
 	bool bulletFlag;
 	double bulAngle;
+	int enemyHP;
+	int bulDamage;
 };

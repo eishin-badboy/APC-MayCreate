@@ -144,25 +144,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseScene.cpp" />
-    <ClCompile Include="GameCtl.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="ImageMng.cpp" />
+    <ClCompile Include="Common\GameCtl.cpp" />
+    <ClCompile Include="Common\ImageMng.cpp" />
+    <ClCompile Include="Common\VECTOR2.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Obj.cpp" />
-    <ClCompile Include="SceneMng.cpp" />
-    <ClCompile Include="Ship.cpp" />
-    <ClCompile Include="VECTOR2.cpp" />
+    <ClCompile Include="Scene\BaseScene.cpp" />
+    <ClCompile Include="Scene\GameScene.cpp" />
+    <ClCompile Include="Scene\SceneMng.cpp" />
+    <ClCompile Include="Unit\Enemy.cpp" />
+    <ClCompile Include="Unit\Friend.cpp" />
+    <ClCompile Include="Unit\Obj.cpp" />
+    <ClCompile Include="Unit\Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseScene.h" />
-    <ClInclude Include="GameCtl.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="ImageMng.h" />
-    <ClInclude Include="Obj.h" />
-    <ClInclude Include="SceneMng.h" />
-    <ClInclude Include="Ship.h" />
-    <ClInclude Include="VECTOR2.h" />
+    <ClInclude Include="Common\GameCtl.h" />
+    <ClInclude Include="Common\ImageMng.h" />
+    <ClInclude Include="Common\VECTOR2.h" />
+    <ClInclude Include="Scene\BaseScene.h" />
+    <ClInclude Include="Scene\GameScene.h" />
+    <ClInclude Include="Scene\SceneMng.h" />
+    <ClInclude Include="Unit\Enemy.h" />
+    <ClInclude Include="Unit\Friend.h" />
+    <ClInclude Include="Unit\Obj.h" />
+    <ClInclude Include="Unit\Ship.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

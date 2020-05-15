@@ -1,5 +1,5 @@
 #include "Dxlib.h"	// DxLib×²ÌÞ×Ø‚ðŽg—p‚·‚é
-#include "GameCtl.h"
+#include "../Common/GameCtl.h"
 #include "GameScene.h"
 #include "SceneMng.h"
 

@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include "VECTOR2.h"
+#include "../Common/VECTOR2.h"
 
 enum class IFF		// “G–¡•û¯•Ê
 {
@@ -10,6 +10,18 @@ enum class IFF		// “G–¡•û¯•Ê
 	ENEMY,			// “G
 	MAX
 };
+
+enum class SHIP
+{
+	BB,		// íŠÍ
+	CV,		// ‹ó•ê
+	CA,		// d„
+	CL,		// Œy„
+	DD,		// ‹ì’€
+	SS,		// ö…
+	MAX
+};
+
 
 class Obj;
 using unique_Obj = std::unique_ptr<Obj>;
@@ -22,6 +34,7 @@ public:
 	virtual ~Obj();
 	virtual void Draw(void);
 	virtual IFF GetIFF(void) = 0;
+	virtual SHIP GetShipType(void) = 0;
 	virtual void Updata(void) = 0;
 
 	VECTOR2 GetShipPos(void);

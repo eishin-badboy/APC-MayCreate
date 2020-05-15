@@ -2,9 +2,9 @@
 #include <time.h>
 #include "Dxlib.h"
 #include "SceneMng.h"
-#include "ImageMng.h"
 #include "GameScene.h"
-#include "GameCtl.h"
+#include "../Common/ImageMng.h"
+#include "../Common/GameCtl.h"
 
 #define PI (3.1415926535)
 
@@ -20,6 +20,12 @@ GameScene::~GameScene()
 
 unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 {
+	// îzóÒÇ…ìoò^Ç≥ÇÍÇƒÇ¢ÇÈëS’∆ØƒÇÃçsìÆçXêV
+	for (auto obj : m_objList)
+	{
+		obj->Updata();
+	}
+
 	auto radius = rotaAngle * PI / 180.0f;
 
 	// ç∂∏ÿØ∏ÇµÇΩÇ∆Ç´
@@ -48,10 +54,17 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 	}
 
 	float c = sqrt(pow(charaPos.x - enemyPos.x, 2) + pow(charaPos.y - enemyPos.y, 2));
-
-	if (c <= 180 + 45)
+	float hit = sqrt(pow(bulletPos.x - enemyPos.x, 2) + pow(bulletPos.y - enemyPos.y, 2));
+	if (c <= 270 + 45)
 	{
 		bulletFlag = true;
+	}
+
+	// ñΩíÜ
+	if (hit <= 45)
+	{
+		enemyHP -= bulDamage;
+		bulletFlag = false;
 	}
 
 	// ñCíeèàóù
@@ -77,10 +90,6 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		//{
 		//	bulletPos.y += 15 * abs(sin(bulAngle));
 		//}
-		if (bulletPos == enemyPos)
-		{
-			bulletFlag = false;
-		}
 	}
 	else
 	{
@@ -107,6 +116,8 @@ int GameScene::Init(void)
 	bulletPos = charaPos;
 	bulletFlag = false;
 	bulAngle = 0;
+	bulDamage = 1;
+	enemyHP = 5;
 	return 0;
 }
 
@@ -119,9 +130,12 @@ bool GameScene::GameDraw(void)
 {
 
 	DrawRotaGraph(charaPos.x, charaPos.y, 0.5f, charaAngle, charaGra, true);
-	DrawRotaGraph(enemyPos.x, enemyPos.y, 0.5f, 0, LoadGraph("image/enemy.png"), true);
-	DrawCircle(charaPos.x, charaPos.y, 180, GetColor(0, 255, 255), false);
-	DrawCircle(enemyPos.x, enemyPos.y, 45, GetColor(255, 0, 255), false);
+	DrawCircle(charaPos.x, charaPos.y, 270, GetColor(0, 255, 255), false);
+	if (enemyHP > 0)
+	{
+		DrawRotaGraph(enemyPos.x, enemyPos.y, 0.5f, 0, LoadGraph("image/enemy.png"), true);
+		DrawCircle(enemyPos.x, enemyPos.y, 45, GetColor(255, 0, 255), false);
+	}
 	if (bulletFlag)
 	{
 		DrawCircle(bulletPos.x, bulletPos.y, 5, GetColor(255, 255, 255), true);
