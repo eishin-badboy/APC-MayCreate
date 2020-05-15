@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseScene.h"
 #include "../Common/GameCtl.h"
-#include "../Common/VECTOR2.h"
+#include "../Common/Vector2.h"
 
 
 #define lpSceneMng SceneMng::GetInstance()
@@ -17,7 +17,7 @@ public:
 		return s_Instance;
 	}
 	void Run(void);
-	VECTOR2 GetScreenSize(void);						// ½¸Ø°Ý»²½Þ‚ðŽæ“¾‚·‚é
+	Vector2 GetScreenSize(void);						// ½¸Ø°Ý»²½Þ‚ðŽæ“¾‚·‚é
 
 
 private:

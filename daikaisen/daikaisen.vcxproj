@@ -146,7 +146,6 @@
   <ItemGroup>
     <ClCompile Include="Common\GameCtl.cpp" />
     <ClCompile Include="Common\ImageMng.cpp" />
-    <ClCompile Include="Common\VECTOR2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
@@ -157,9 +156,10 @@
     <ClCompile Include="Unit\Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common\details\Vector2.h" />
     <ClInclude Include="Common\GameCtl.h" />
     <ClInclude Include="Common\ImageMng.h" />
-    <ClInclude Include="Common\VECTOR2.h" />
+    <ClInclude Include="Common\Vector2.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\SceneMng.h" />

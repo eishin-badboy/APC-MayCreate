@@ -109,10 +109,10 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 int GameScene::Init(void)
 {
 	charaGra = LoadGraph("image/player.png");
-	charaPos = VECTOR2(500, 210);
+	charaPos = Vector2Dbl(500, 210);
 	charaAngle = 0;
 	rotaAngle = 270;
-	enemyPos = VECTOR2(900, 90);
+	enemyPos = Vector2Dbl(900, 90);
 	bulletPos = charaPos;
 	bulletFlag = false;
 	bulAngle = 0;

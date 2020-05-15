@@ -4,7 +4,7 @@ Friend::Friend()
 {
 }
 
-Friend::Friend(VECTOR2 pos, VECTOR2 size, SHIP ship, IFF iff)
+Friend::Friend(Vector2Dbl pos, Vector2Dbl size, SHIP ship, IFF iff)
 {
 }
 
@@ -25,9 +25,9 @@ void Friend::Updata(void)
 {
 }
 
-VECTOR2 Friend::GetSize(void)
+Vector2 Friend::GetSize(void)
 {
-	return VECTOR2();
+	return Vector2();
 }
 
 bool Friend::Init(void)

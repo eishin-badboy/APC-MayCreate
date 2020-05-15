@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-#include "../Common/VECTOR2.h"
+#include "../Common/Vector2.h"
 
 enum class SHIP_TYPE
 {
@@ -22,7 +22,7 @@ public:
 	void Draw(void);
 	void Updata(void);
 
-	VECTOR2 GetSize(void);
+	Vector2 GetSize(void);
 
 private:
 	bool Init(void);

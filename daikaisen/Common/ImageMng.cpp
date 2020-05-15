@@ -1,6 +1,6 @@
 #include <string>
 #include "DxLib.h"
-#include "VECTOR2.h"
+#include "Vector2.h"
 #include "ImageMng.h"
 
 // ÃÞÊÞ¯¸Ò¯¾°¼Þ—p’è‹`
@@ -37,7 +37,7 @@ const VEC_INT& ImageMng::GetID(std::string f_name)
 	return imgMap[f_name];								// imgMap[f_name]‚ð•Ô‚·
 }
 
-const VEC_INT& ImageMng::GetID(std::string f_name, VECTOR2 divSize, VECTOR2 divCut)
+const VEC_INT& ImageMng::GetID(std::string f_name, Vector2 divSize, Vector2 divCut)
 {
 	if (imgMap.find(f_name) == imgMap.end())
 	{

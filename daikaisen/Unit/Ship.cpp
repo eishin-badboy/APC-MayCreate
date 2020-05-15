@@ -16,9 +16,9 @@ void Ship::Updata(void)
 {
 }
 
-VECTOR2 Ship::GetSize(void)
+Vector2 Ship::GetSize(void)
 {
-	return VECTOR2();
+	return Vector2();
 }
 
 bool Ship::Init(void)

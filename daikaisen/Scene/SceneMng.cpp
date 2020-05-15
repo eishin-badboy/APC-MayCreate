@@ -24,9 +24,9 @@ void SceneMng::Run(void)
 	}
 }
 
-VECTOR2 SceneMng::GetScreenSize(void)
+Vector2 SceneMng::GetScreenSize(void)
 {
-	return VECTOR2(SCREEN_SIZE_X, SCREEN_SIZE_Y);
+	return Vector2(SCREEN_SIZE_X, SCREEN_SIZE_Y);
 }
 
 SceneMng::SceneMng()

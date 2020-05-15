@@ -2,8 +2,6 @@
 #include<map>
 #include<vector>
 
-class VECTOR2;
-
 using VEC_INT = std::vector<int>;
 
 #define lpImageMng ImageMng::GetInstance()
@@ -20,7 +18,7 @@ public:
 	}
 
 	const VEC_INT& GetID(std::string f_name);										// 画像のﾊﾝﾄﾞﾙを参照するための関数 ( LoadGraph用 )
-	const VEC_INT& GetID(std::string f_name, VECTOR2 divSize, VECTOR2 divCut);		// 画像のﾊﾝﾄﾞﾙを参照するための関数 ( LoadDivGraph用 )
+	const VEC_INT& GetID(std::string f_name, Vector2 divSize, Vector2 divCut);		// 画像のﾊﾝﾄﾞﾙを参照するための関数 ( LoadDivGraph用 )
 
 	// 引数のｷｬﾗｸﾀｰのｱﾆﾒｰｼｮﾝを全て読み込む関数
 	void LoadImageCharacterAll(std::string characterName, std::vector<std::string> animName, std::map<std::string, std::string> animFileName);

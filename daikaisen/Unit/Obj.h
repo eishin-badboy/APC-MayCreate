@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include "../Common/VECTOR2.h"
+#include "../Common/Vector2.h"
 
 enum class IFF		// “G–¡•ûŽ¯•Ê
 {
@@ -37,12 +37,12 @@ public:
 	virtual SHIP GetShipType(void) = 0;
 	virtual void Updata(void) = 0;
 
-	VECTOR2 GetShipPos(void);
+	Vector2Dbl GetShipPos(void);
 
 protected:
-	VECTOR2 m_pos;
-	VECTOR2 m_distiPos;
-	VECTOR2 m_size;
+	Vector2Dbl m_pos;
+	Vector2Dbl m_distiPos;
+	Vector2 m_size;
 	double m_angle;
 	int m_graph;
 };
