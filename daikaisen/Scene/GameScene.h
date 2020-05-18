@@ -1,6 +1,8 @@
 #pragma once
+#include <list>
 #include <array>
 #include <vector>
+#include <memory>
 #include "BaseScene.h"
 #include "../Unit/Obj.h"
 #include "../Common/Vector2.h"
@@ -24,7 +26,7 @@ private:
 	std::vector<shared_Obj> m_objList;		// Obj継承ｸﾗｽの可変配列
 
 	int charaGra;				// ﾃｽﾄ用ｸﾞﾗﾌｨｯｸ
-	Vector2Dbl charaPos;			// ﾃｽﾄ用位地
+	Vector2Dbl charaPos;		// ﾃｽﾄ用位地
 	Vector2 mousePos;			// ﾏｳｽの位置
 	float charaAngle;			// ﾃｽﾄ用の角度
 	double rotaAngle;			// 回転角度

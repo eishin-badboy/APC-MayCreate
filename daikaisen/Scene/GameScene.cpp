@@ -1,8 +1,15 @@
 #include <stdlib.h>
+#include <algorithm>
+#include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
+#include <iterator>
+
 #include "Dxlib.h"
 #include "SceneMng.h"
 #include "GameScene.h"
+#include "../Unit/Friend.h"
+#include "../Unit/Enemy.h"
 #include "../Common/ImageMng.h"
 #include "../Common/GameCtl.h"
 
@@ -28,30 +35,30 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 
 	auto radius = rotaAngle * PI / 180.0f;
 
-	// ¶¸Ø¯¸‚µ‚½‚Æ‚«
-	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
-	{
-		GetMousePoint(&mousePos.x, &mousePos.y);
-		charaAngle = atan2(mousePos.y - charaPos.y, mousePos.x - charaPos.x) + (PI / 2);
-	}
-	
-	// ˆÊ’n‚ªˆá‚¤Žž
-	if (charaPos.x > mousePos.x)
-	{
-		charaPos.x -= 10 * abs(sin(charaAngle));
-	}
-	if (charaPos.x < mousePos.x)
-	{
-		charaPos.x += 10 * abs(sin(charaAngle));
-	}
-	if (charaPos.y > mousePos.y)
-	{
-		charaPos.y -= 10 * abs(cos(charaAngle));
-	}
-	if (charaPos.y < mousePos.y)
-	{
-		charaPos.y += 10 * abs(cos(charaAngle));
-	}
+	//// ¶¸Ø¯¸‚µ‚½‚Æ‚«
+	//if ((GetMouseInput() & MOUSE_INPUT_LEFT))
+	//{
+	//	GetMousePoint(&mousePos.x, &mousePos.y);
+	//	charaAngle = atan2(mousePos.y - charaPos.y, mousePos.x - charaPos.x) + (PI / 2);
+	//}
+	//
+	//// ˆÊ’n‚ªˆá‚¤Žž
+	//if (charaPos.x > mousePos.x)
+	//{
+	//	charaPos.x -= 1 * abs(sin(charaAngle));
+	//}
+	//if (charaPos.x < mousePos.x)
+	//{
+	//	charaPos.x += 1 * abs(sin(charaAngle));
+	//}
+	//if (charaPos.y > mousePos.y)
+	//{
+	//	charaPos.y -= 1 * abs(cos(charaAngle));
+	//}
+	//if (charaPos.y < mousePos.y)
+	//{
+	//	charaPos.y += 1 * abs(cos(charaAngle));
+	//}
 
 	float c = sqrt(pow(charaPos.x - enemyPos.x, 2) + pow(charaPos.y - enemyPos.y, 2));
 	float hit = sqrt(pow(bulletPos.x - enemyPos.x, 2) + pow(bulletPos.y - enemyPos.y, 2));
@@ -118,6 +125,8 @@ int GameScene::Init(void)
 	bulAngle = 0;
 	bulDamage = 1;
 	enemyHP = 5;
+	m_objList.emplace_back(new Friend({ 500,210 }, { 90, 90 }, SHIP::BB, IFF::FRIEND));
+
 	return 0;
 }
 
@@ -128,9 +137,13 @@ bool GameScene::CheckGameEnd(void)
 
 bool GameScene::GameDraw(void)
 {
+	for (auto& obj : m_objList)
+	{
+		obj->Obj::Draw();
+	}
 
-	DrawRotaGraph(charaPos.x, charaPos.y, 0.5f, charaAngle, charaGra, true);
-	DrawCircle(charaPos.x, charaPos.y, 270, GetColor(0, 255, 255), false);
+	//DrawRotaGraph(charaPos.x, charaPos.y, 0.5f, charaAngle, charaGra, true);
+	//DrawCircle(charaPos.x, charaPos.y, 270, GetColor(0, 255, 255), false);
 	if (enemyHP > 0)
 	{
 		DrawRotaGraph(enemyPos.x, enemyPos.y, 0.5f, 0, LoadGraph("image/enemy.png"), true);
@@ -140,5 +153,11 @@ bool GameScene::GameDraw(void)
 	{
 		DrawCircle(bulletPos.x, bulletPos.y, 5, GetColor(255, 255, 255), true);
 	}
+
+	for (auto& obj : m_objList)
+	{
+		obj->Obj::Draw();
+	}
+
 	return true;
 }

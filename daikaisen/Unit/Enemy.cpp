@@ -17,6 +17,11 @@ SHIP Enemy::GetShipType(void)
 	return SHIP();
 }
 
+IFF Enemy::GetIFF(void)
+{
+	return IFF::ENEMY;
+}
+
 void Enemy::Updata(void)
 {
 }

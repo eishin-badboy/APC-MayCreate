@@ -5,6 +5,8 @@
 #include <map>
 #include "../Common/Vector2.h"
 
+#define PI (3.1415926535)
+
 enum class IFF		// “G–¡•ûŽ¯•Ê
 {
 	FRIEND,			// –¡•û

@@ -144,18 +144,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common\Collision.cpp" />
     <ClCompile Include="Common\GameCtl.cpp" />
     <ClCompile Include="Common\ImageMng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\SceneMng.cpp" />
+    <ClCompile Include="Unit\Bullet.cpp" />
     <ClCompile Include="Unit\Enemy.cpp" />
     <ClCompile Include="Unit\Friend.cpp" />
     <ClCompile Include="Unit\Obj.cpp" />
     <ClCompile Include="Unit\Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common\Collision.h" />
     <ClInclude Include="Common\details\Vector2.h" />
     <ClInclude Include="Common\GameCtl.h" />
     <ClInclude Include="Common\ImageMng.h" />
@@ -163,6 +166,7 @@
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\SceneMng.h" />
+    <ClInclude Include="Unit\Bullet.h" />
     <ClInclude Include="Unit\Enemy.h" />
     <ClInclude Include="Unit\Friend.h" />
     <ClInclude Include="Unit\Obj.h" />
