@@ -23,7 +23,17 @@ private:
 	bool CheckGameEnd(void);	// 勝敗をチェック		
 	bool GameDraw(void);		// 描画処理
 
-	std::vector<shared_Obj> m_objList;		// Obj継承ｸﾗｽの可変配列
+	std::vector<shared_Obj> m_objList;		// Obj継承ｸﾗｽの可変配列(ｵﾘｼﾞﾅﾙ)
+
+	std::vector<shared_Obj> f_fleetListF;	// 味方第一艦隊の可変配列
+	std::vector<shared_Obj> f_fleetListS;	// 味方第二艦隊の可変配列
+	std::vector<shared_Obj> f_fleetListT;	// 味方第三艦隊の可変配列
+
+	std::vector<shared_Obj> e_fleetListF;	// 敵第一艦隊の可変配列
+	std::vector<shared_Obj> e_fleetListS;	// 敵第二艦隊の可変配列
+	std::vector<shared_Obj> e_fleetListT;	// 敵第三艦隊の可変配列
+
+
 
 	int charaGra;				// ﾃｽﾄ用ｸﾞﾗﾌｨｯｸ
 	Vector2Dbl charaPos;		// ﾃｽﾄ用位地

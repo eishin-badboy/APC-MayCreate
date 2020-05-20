@@ -6,7 +6,7 @@ class Friend : public Obj
 {
 public:
 	Friend();
-	Friend(Vector2Dbl pos, Vector2 size, SHIP ship, IFF iff);
+	Friend(Vector2Dbl pos, Vector2 size, SHIP ship, IFF iff, int HP, bool visible);
 	~Friend();
 	void Draw(void);
 	SHIP GetShipType(void)override;

@@ -11,6 +11,7 @@ enum class IFF		// “G–¡•û¯•Ê
 {
 	FRIEND,			// –¡•û
 	ENEMY,			// “G
+	BULLET,
 	MAX
 };
 
@@ -40,6 +41,15 @@ public:
 	virtual SHIP GetShipType(void) = 0;
 	virtual void Updata(void) = 0;
 
+	const Vector2Dbl pos(void) const;			// m_pos‚ÌGetŠÖ”
+	double GetAngle(void);
+	void SetPos(Vector2Dbl pos);
+	void SetAngle(double angle);
+	void SetDamage(int damage);
+	void SetDeath(bool death);
+	void SetVisible(bool visible);
+	bool isDeath(void) { return m_death; };		// m_death‚ÌGetŠÖ”
+
 	Vector2Dbl GetShipPos(void);
 
 protected:
@@ -51,5 +61,8 @@ protected:
 	SHIP m_ship;													// ŠÍí—p‚Ì•Ï”
 	std::array<int, static_cast<int>(SHIP::MAX)> m_shipGra;			// ŠÍí‚²‚Æ‚Ì‰æ‘œ
 	std::array<double, static_cast<int>(SHIP::MAX)> m_speedTbl;		// ŠÍí‚²‚Æ‚Ì‘¬“x
+	int m_HP;											// ‘Ï‹v’l
+	bool m_death;										// ‚â‚Á‚½‚©Ì×¸Ş
+	bool m_visible;										// ‰Â‹‰»Ì×¸Ş
 };
 

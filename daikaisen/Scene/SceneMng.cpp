@@ -4,8 +4,8 @@
 #include "SceneMng.h"
 
 
-#define SCREEN_SIZE_X (1280)
-#define SCREEN_SIZE_Y (720)
+#define SCREEN_SIZE_X (1920)
+#define SCREEN_SIZE_Y (1080)
 
 
 void SceneMng::Run(void)

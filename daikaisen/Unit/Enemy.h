@@ -7,7 +7,7 @@ class Enemy : public Obj
 {
 public:
 	Enemy();
-	Enemy(Vector2Dbl pos, Vector2Dbl size, SHIP ship, IFF iff);
+	Enemy(Vector2Dbl pos, Vector2 size, SHIP ship, IFF iff, int HP, bool visible);
 	~Enemy();
 	SHIP GetShipType(void)override;		// ÕÆ¯Ä(“G)‚Ìî•ñæ“¾‚ÌŠÖ”
 	IFF GetIFF(void)override;
