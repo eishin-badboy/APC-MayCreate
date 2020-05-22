@@ -13,7 +13,7 @@ void Obj::Draw(void)
 {
 	if (m_visible)
 	{
-		DrawRotaGraph(m_pos.x, m_pos.y, 0.5f, m_angle, m_graph, true);
+		DrawRotaGraph(m_pos.x, m_pos.y, 1.0f, m_angle, m_graph, true);
 	}
 	DrawCircle(m_pos.x, m_pos.y, 400, GetColor(0, 255, 255), false);
 	DrawCircle(m_pos.x, m_pos.y, 500, GetColor(255, 0, 0), false);

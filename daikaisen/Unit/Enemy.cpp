@@ -13,6 +13,7 @@ Enemy::Enemy(Vector2Dbl pos, Vector2 size, SHIP ship, IFF iff, int HP, bool visi
 	m_size = size;
 	m_ship = ship;
 	m_HP = HP;
+	m_visible = visible;
 	Init();
 }
 

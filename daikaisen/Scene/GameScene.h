@@ -47,4 +47,31 @@ private:
 	double bulAngle;
 	int enemyHP;
 	int bulDamage;
+
+
+	// ”wŒiŠÖ˜A
+	int waveBG;					// ”wŒi‚Ì”g
+	int cloudGra;
+	Vector2Dbl cloPos;
+
+	// UIŠÖ˜A
+	int gameBGM;
+	bool bgmStart;
+	int miniMap;
+	Vector2Dbl miniPos;
+	int info;
+	Vector2Dbl infoPos;
+	int task;
+	Vector2Dbl taskPos;
+	int poliIco;
+	Vector2Dbl poliPos;
+	int moveIco;
+	Vector2Dbl movePos;
+	int attIco;
+	Vector2Dbl attPos;
+	int searIco;
+	Vector2Dbl searPos;
+	int retIco;
+	Vector2Dbl retPos;
+	bool uiHide;
 };

@@ -24,10 +24,24 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
+	//DeleteGraph(waveBG);
 }
 
 unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 {
+	// Ç†Ç∆Ç≈âèú@@@
+	{
+		//if (!bgmStart)
+		//{
+		//	PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
+		//	bgmStart = true;
+		//}
+		//if (CheckSoundMem(gameBGM) == 0)
+		//{
+		//	bgmStart = false;
+		//}
+	}
+
 	// îzóÒÇ…ìoò^Ç≥ÇÍÇƒÇ¢ÇÈëS’∆ØƒÇÃçsìÆçXêV
 	for (auto obj : m_objList)
 	{
@@ -94,18 +108,18 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		{
 			for (auto other : f_fleetListF)
 			{
-				if (other->GetIFF() == IFF::FRIEND)
-				{
+				//if (other->GetIFF() == IFF::FRIEND)
+				//{
 
 					float c = sqrt(pow(other->pos().x - obj->pos().x, 2) + pow(other->pos().y - obj->pos().y, 2));
 					// çıìGîÕàÕì‡
+					if (c > 900 + 45)
+					{
+						obj->SetVisible(false);
+					}
 					if (c <= 500 + 45)
 					{
 						obj->SetVisible(true);
-					}
-					if (c > 500 + 45)
-					{
-						obj->SetVisible(false);
 					}
 					// çUåÇîÕàÕì‡
 					if (c <= 400 + 45)
@@ -131,7 +145,7 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 						//	}
 						//}
 					}
-				}
+				//}
 				{
 					// ñCíeèàóù
 //if (bulletFlag)
@@ -218,7 +232,12 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		//}
 	}
 
-
+	cloPos.x++;
+	cloPos.y--;
+	if (cloPos.y < -730)
+	{
+		cloPos = { -100, 1800 };
+	}
 
 	m_objList.erase(std::remove_if(m_objList.begin(), m_objList.end(),
 		[](shared_Obj& obj) {return (*obj).isDeath(); }), m_objList.end());
@@ -250,6 +269,35 @@ int GameScene::Init(void)
 
 	m_objList.emplace_back(new Enemy({ 1300, 90 }, { 90, 90 }, SHIP::BB, IFF::ENEMY, 5, false));
 
+	waveBG = LoadGraph("image/sea.png");
+	cloudGra = LoadGraph("image/cloud.png");
+	cloPos = Vector2Dbl(-100, 1800);
+	//PlayMovieToGraph(waveBG);
+
+	gameBGM = LoadSoundMem("bgm/game.mp3");
+	bgmStart = false;
+	// UIä÷òA
+	{
+		miniMap = LoadGraph("image/miniMap.png");
+		miniPos = Vector2Dbl(0, 1080 - 275);
+		info = LoadGraph("image/info.png");
+		infoPos = Vector2Dbl(422, 1080 - 210);
+		task = LoadGraph("image/task.png");
+		taskPos = Vector2Dbl(420 + 1150, 1080 - 230);
+		poliIco = LoadGraph("image/policy.png");
+		poliPos = Vector2Dbl(420 + 1150 + 10, 1080 - 230 + 20);
+		moveIco = LoadGraph("image/move.png");
+		movePos = Vector2Dbl(420 + 1150 + 160 + 20, 1080 - 230 + 20);
+		attIco = LoadGraph("image/attack.png");
+		attPos = Vector2Dbl(420 + 1150 + 10, 1080 - 230 + 53 + 40);
+		searIco = LoadGraph("image/search.png");
+		searPos = Vector2Dbl(420 + 1150 + 160 + 20, 1080 - 230 + 53 + 40);
+		retIco = LoadGraph("image/retreat.png");
+		retPos = Vector2Dbl(420 + 1150 + 160 + 20, 1080 - 230 + 53*2 + 20*3);
+
+		uiHide = false;
+	}
+
 	return 0;
 }
 
@@ -260,6 +308,17 @@ bool GameScene::CheckGameEnd(void)
 
 bool GameScene::GameDraw(void)
 {
+	DrawRotaGraph(960, 540, 2.5f, 0, waveBG, true);
+
+	//if(GetMovieStateToGraph(waveBG) == 1)
+	//{
+	//	// ÉÄÅ[ÉrÅ[âfëúÇâÊñ Ç¢Ç¡ÇœÇ¢Ç…ï`âÊÇµÇ‹Ç∑
+	//	DrawExtendGraph(0, 0, 1920, 1080, waveBG, FALSE);
+
+	//	// ÉEÉGÉCÉgÇÇ©ÇØÇ‹Ç∑ÅAÇ†Ç‹ÇËë¨Ç≠ï`âÊÇ∑ÇÈÇ∆âÊñ Ç™ÇøÇÁÇ¬Ç≠Ç©ÇÁÇ≈Ç∑
+	//	WaitTimer(17);
+	//}
+
 	for (auto& obj : m_objList)
 	{
 		obj->Obj::Draw();
@@ -269,6 +328,7 @@ bool GameScene::GameDraw(void)
 	{
 		obj->Obj::Draw();
 	}
+
 
 	//DrawRotaGraph(charaPos.x, charaPos.y, 0.5f, charaAngle, charaGra, true);
 	//DrawCircle(charaPos.x, charaPos.y, 270, GetColor(0, 255, 255), false);
@@ -280,6 +340,20 @@ bool GameScene::GameDraw(void)
 	if (bulletFlag)
 	{
 		DrawCircle(bulletPos.x, bulletPos.y, 5, GetColor(255, 255, 255), true);
+	}
+
+	DrawRotaGraph(cloPos.x, cloPos.y, 1.0f, 0, cloudGra, true);
+
+	if (!uiHide)
+	{
+		DrawGraph(miniPos.x, miniPos.y, miniMap, true);
+		DrawGraph(infoPos.x, infoPos.y, info, true);
+		DrawGraph(taskPos.x, taskPos.y, task, true);
+		DrawGraph(poliPos.x, poliPos.y, poliIco, true);
+		DrawGraph(movePos.x, movePos.y, moveIco, true);
+		DrawGraph(attPos.x, attPos.y, attIco, true);
+		DrawGraph(searPos.x, searPos.y, searIco, true);
+		DrawGraph(retPos.x, retPos.y, retIco, true);
 	}
 
 	return true;

@@ -121,7 +121,7 @@ Vector2 Friend::GetSize(void)
 
 bool Friend::Init(void)
 {
-	m_graph = LoadGraph("image/player.png");
+	m_graph = LoadGraph("image/bb.png");
 	m_angle = 0;
 	m_death = false;
 
