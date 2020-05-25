@@ -46,7 +46,7 @@ Vector2 Enemy::GetSize(void)
 
 bool Enemy::Init(void)
 {
-	m_graph = LoadGraph("image/enemy.png");
+	m_graph = LoadGraph("image/air.png");
 	m_angle = 0;
 	m_death = false;
 

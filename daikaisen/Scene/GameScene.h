@@ -20,6 +20,8 @@ private:
 	Vector2 sSize;				// 画面ｻｲｽﾞ
 
 	int Init(void);
+	void FleetMove(void);		// 艦隊移動処理
+	void CheckDistina(void);	// 目的地
 	bool CheckGameEnd(void);	// 勝敗をチェック		
 	bool GameDraw(void);		// 描画処理
 
@@ -38,6 +40,8 @@ private:
 	int charaGra;				// ﾃｽﾄ用ｸﾞﾗﾌｨｯｸ
 	Vector2Dbl charaPos;		// ﾃｽﾄ用位地
 	Vector2 mousePos;			// ﾏｳｽの位置
+	Vector2Dbl distiPos;		// 目的地
+	Vector2 miniDistPos;		// ﾏｯﾌﾟ上の目的地
 	float charaAngle;			// ﾃｽﾄ用の角度
 	double rotaAngle;			// 回転角度
 
@@ -73,5 +77,13 @@ private:
 	Vector2Dbl searPos;
 	int retIco;
 	Vector2Dbl retPos;
+
 	bool uiHide;
+
+	int mapGra;
+	int disGra;
+	bool mapVis;
+	Vector2Dbl mapPos;
+	Vector2Dbl miniShipPos;
+	Vector2Dbl miniFfPos;
 };

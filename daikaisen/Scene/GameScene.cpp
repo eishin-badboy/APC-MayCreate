@@ -29,17 +29,19 @@ GameScene::~GameScene()
 
 unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 {
+	GetMousePoint(&mousePos.x, &mousePos.y);
+
 	// あとで解除@@@
 	{
-		//if (!bgmStart)
-		//{
-		//	PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
-		//	bgmStart = true;
-		//}
-		//if (CheckSoundMem(gameBGM) == 0)
-		//{
-		//	bgmStart = false;
-		//}
+		if (!bgmStart)
+		{
+			PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
+			bgmStart = true;
+		}
+		if (CheckSoundMem(gameBGM) == 0)
+		{
+			bgmStart = false;
+		}
 	}
 
 	// 配列に登録されている全ﾕﾆｯﾄの行動更新
@@ -53,54 +55,29 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		obj->Updata();
 	}
 
-	// 左ｸﾘｯｸしたとき
-	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
-	{
-		GetMousePoint(&mousePos.x, &mousePos.y);
-		f_fleetListF[0]->SetAngle(atan2(mousePos.y - f_fleetListF[0]->pos().y, mousePos.x - f_fleetListF[0]->pos().x) + (PI / 2));
-	}
+	FleetMove();		// 艦隊移動
 
-	// 位地が違う時
-	if (f_fleetListF[0]->pos().x > mousePos.x)
+	// 移動ｺﾏﾝﾄﾞを選択
+	if (!uiHide && (mousePos.x > movePos.x && mousePos.x < mousePos.x + 160) && (mousePos.y > movePos.y && mousePos.y < movePos.y + 54))
 	{
-		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x - 1 * abs(sin(f_fleetListF[0]->GetAngle())), f_fleetListF[0]->pos().y });
-	}
-	if (f_fleetListF[0]->pos().x < mousePos.x)
-	{
-		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x + 1 * abs(sin(f_fleetListF[0]->GetAngle())), f_fleetListF[0]->pos().y });
-	}
-	if (f_fleetListF[0]->pos().y > mousePos.y)
-	{
-		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x, f_fleetListF[0]->pos().y - 1 * abs(cos(f_fleetListF[0]->GetAngle())) });
-	}
-	if (f_fleetListF[0]->pos().y < mousePos.y)
-	{
-		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x, f_fleetListF[0]->pos().y + 1 * abs(cos(f_fleetListF[0]->GetAngle())) });
-	}
-
-	// 随伴艦の挙動
-	for (int no = 1; no < 4; no++)
-	{
-		f_fleetListF[no]->SetAngle(atan2(f_fleetListF[no-1]->pos().y - f_fleetListF[no]->pos().y, f_fleetListF[no-1]->pos().x - f_fleetListF[no]->pos().x) + (PI / 2));
-		// 位地が違う時
-		if (f_fleetListF[no]->pos().x > f_fleetListF[0]->pos().x + (120 * no) * abs(sin(f_fleetListF[0]->GetAngle())))
+		if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 		{
-			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x - 1 * abs(sin(f_fleetListF[no]->GetAngle())), f_fleetListF[no]->pos().y});
-		}
-		if (f_fleetListF[no]->pos().x < f_fleetListF[0]->pos().x - (120 * no) * abs(sin(f_fleetListF[0]->GetAngle())))
-		{
-			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x + 1 * abs(sin(f_fleetListF[no]->GetAngle())), f_fleetListF[no]->pos().y });
-		}
-		if (f_fleetListF[no]->pos().y > f_fleetListF[0]->pos().y + (120 * no) * abs(cos(f_fleetListF[0]->GetAngle())))
-		{
-			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y - 1 * abs(cos(f_fleetListF[no]->GetAngle())) });
-		}
-		if (f_fleetListF[no]->pos().y < f_fleetListF[0]->pos().y - (120 * no) * abs(cos(f_fleetListF[0]->GetAngle())))
-		{
-			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y + 1 * abs(cos(f_fleetListF[no]->GetAngle())) });
+			uiHide = true;
+			mapVis = true;
 		}
 	}
 
+	//342:235
+	Vector2Dbl testPos = f_fleetListF[0]->pos();
+	miniFfPos = Vector2Dbl((miniPos.x + 33) + (testPos.x / 11.22), (miniPos.y + 33) + (testPos.y / 16.34));
+	// ﾐﾆﾏｯﾌﾟ
+
+
+	// 移動地点決め
+	if (mapVis)
+	{
+		CheckDistina();
+	}
 
 	for (auto obj : m_objList)
 	{
@@ -274,6 +251,8 @@ int GameScene::Init(void)
 	cloPos = Vector2Dbl(-100, 1800);
 	//PlayMovieToGraph(waveBG);
 
+	miniDistPos = { 0,0 };
+
 	gameBGM = LoadSoundMem("bgm/game.mp3");
 	bgmStart = false;
 	// UI関連
@@ -296,9 +275,81 @@ int GameScene::Init(void)
 		retPos = Vector2Dbl(420 + 1150 + 160 + 20, 1080 - 230 + 53*2 + 20*3);
 
 		uiHide = false;
+		mapVis = false;
+		mapGra = LoadGraph("image/map.png");
+		mapPos = Vector2Dbl((920 / 2), 40);
+		disGra = LoadGraph("image/flag.png");
 	}
 
 	return 0;
+}
+
+void GameScene::FleetMove(void)
+{
+	// 位地が違う時
+	if (f_fleetListF[0]->pos().x > distiPos.x)
+	{
+		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x - 1 * abs(sin(f_fleetListF[0]->GetAngle())), f_fleetListF[0]->pos().y });
+	}
+	if (f_fleetListF[0]->pos().x < distiPos.x)
+	{
+		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x + 1 * abs(sin(f_fleetListF[0]->GetAngle())), f_fleetListF[0]->pos().y });
+	}
+	if (f_fleetListF[0]->pos().y > distiPos.y)
+	{
+		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x, f_fleetListF[0]->pos().y - 1 * abs(cos(f_fleetListF[0]->GetAngle())) });
+	}
+	if (f_fleetListF[0]->pos().y < distiPos.y)
+	{
+		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x, f_fleetListF[0]->pos().y + 1 * abs(cos(f_fleetListF[0]->GetAngle())) });
+	}
+
+	// 随伴艦の挙動
+	for (int no = 1; no < 4; no++)
+	{
+		f_fleetListF[no]->SetAngle(atan2(f_fleetListF[no - 1]->pos().y - f_fleetListF[no]->pos().y, f_fleetListF[no - 1]->pos().x - f_fleetListF[no]->pos().x) + (PI / 2));
+		// 位地が違う時
+		if (f_fleetListF[no]->pos().x > f_fleetListF[0]->pos().x + (120 * no) * abs(sin(f_fleetListF[0]->GetAngle())))
+		{
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x - 1 * abs(sin(f_fleetListF[no]->GetAngle())), f_fleetListF[no]->pos().y });
+		}
+		if (f_fleetListF[no]->pos().x < f_fleetListF[0]->pos().x - (120 * no) * abs(sin(f_fleetListF[0]->GetAngle())))
+		{
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x + 1 * abs(sin(f_fleetListF[no]->GetAngle())), f_fleetListF[no]->pos().y });
+		}
+		if (f_fleetListF[no]->pos().y > f_fleetListF[0]->pos().y + (120 * no) * abs(cos(f_fleetListF[0]->GetAngle())))
+		{
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y - 1 * abs(cos(f_fleetListF[no]->GetAngle())) });
+		}
+		if (f_fleetListF[no]->pos().y < f_fleetListF[0]->pos().y - (120 * no) * abs(cos(f_fleetListF[0]->GetAngle())))
+		{
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y + 1 * abs(cos(f_fleetListF[no]->GetAngle())) });
+		}
+	}
+
+}
+
+void GameScene::CheckDistina(void)
+{
+	Vector2Dbl testPos = f_fleetListF[0]->pos();
+	miniShipPos = Vector2Dbl(mapPos.x + (testPos.x / 3.84), mapPos.y + (testPos.y / 3.84));
+	if ((GetMouseInput() & MOUSE_INPUT_RIGHT))
+	{
+		mapVis = false;
+		uiHide = false;
+	}
+	// 左ｸﾘｯｸしたとき
+	if ((mousePos.x > mapPos.x && mousePos.x < mapPos.x + 1000) && (mousePos.y > mapPos.y && mousePos.y < mapPos.y + 1000))
+	{
+		if ((GetMouseInput() & MOUSE_INPUT_LEFT))
+		{
+			miniDistPos = mousePos;
+			distiPos = Vector2Dbl((mousePos.x - mapPos.x) * 3.84, (mousePos.y - mapPos.y) * 3.84);					// ﾏｯﾌﾟ内で選択した地点を復元
+			f_fleetListF[0]->SetAngle(atan2(mousePos.y - miniShipPos.y, mousePos.x - miniShipPos.x) + (PI / 2));
+			mapVis = false;
+			uiHide = false;
+		}
+	}
 }
 
 bool GameScene::CheckGameEnd(void)
@@ -354,6 +405,14 @@ bool GameScene::GameDraw(void)
 		DrawGraph(attPos.x, attPos.y, attIco, true);
 		DrawGraph(searPos.x, searPos.y, searIco, true);
 		DrawGraph(retPos.x, retPos.y, retIco, true);
+
+		DrawCircle(miniFfPos.x, miniFfPos.y, (25 / 5), GetColor(0, 255, 0), true);
+	}
+	if (mapVis)
+	{
+		DrawGraph(mapPos.x, mapPos.y, mapGra, true);
+		DrawCircle(miniShipPos.x, miniShipPos.y, (25 / 3.84), GetColor(0, 255, 0), true);
+		DrawRotaGraph(miniDistPos.x+20, miniDistPos.y-20, 0.2f, 0, disGra, true);
 	}
 
 	return true;
