@@ -55,6 +55,11 @@ void Obj::SetVisible(bool visible)
 	m_visible = visible;
 }
 
+void Obj::SetAtInter(void)
+{
+	m_atInter++;
+}
+
 Vector2Dbl Obj::GetShipPos(void)
 {
 	return m_pos;

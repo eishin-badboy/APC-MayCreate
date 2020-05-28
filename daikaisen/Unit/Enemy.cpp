@@ -31,6 +31,11 @@ IFF Enemy::GetIFF(void)
 	return IFF::ENEMY;
 }
 
+int Enemy::GetAtInter(void)
+{
+	return m_atInter;
+}
+
 void Enemy::Updata(void)
 {
 	if (m_HP <= 0)
@@ -47,6 +52,8 @@ Vector2 Enemy::GetSize(void)
 bool Enemy::Init(void)
 {
 	m_graph = LoadGraph("image/air.png");
+	m_atInter = 0;
+
 	m_angle = 0;
 	m_death = false;
 

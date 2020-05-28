@@ -11,6 +11,7 @@ public:
 	void Draw(void);
 	SHIP GetShipType(void)override;
 	IFF GetIFF(void)override;
+	int GetAtInter(void)override;
 	void Updata(void)override;
 	Vector2 GetSize(void);
 

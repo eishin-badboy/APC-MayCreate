@@ -15,6 +15,9 @@
 #include "../Common/GameCtl.h"
 
 #define PI (3.1415926535)
+#define MAP_RATE (3840/1000)
+#define MINI_RATE_X (3840/342)
+#define MINI_RATE_Y (3840/233)
 
 GameScene::GameScene()
 {
@@ -30,18 +33,17 @@ GameScene::~GameScene()
 unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 {
 	GetMousePoint(&mousePos.x, &mousePos.y);
-
 	// Ç†Ç∆Ç≈âèú@@@
 	{
-		if (!bgmStart)
-		{
-			PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
-			bgmStart = true;
-		}
-		if (CheckSoundMem(gameBGM) == 0)
-		{
-			bgmStart = false;
-		}
+		//if (!bgmStart)
+		//{
+		//	PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
+		//	bgmStart = true;
+		//}
+		//if (CheckSoundMem(gameBGM) == 0)
+		//{
+		//	bgmStart = false;
+		//}
 	}
 
 	// îzóÒÇ…ìoò^Ç≥ÇÍÇƒÇ¢ÇÈëS’∆ØƒÇÃçsìÆçXêV
@@ -55,6 +57,7 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		obj->Updata();
 	}
 
+	ViewMove();
 	FleetMove();		// äÕë‡à⁄ìÆ
 
 	// à⁄ìÆ∫œ›ƒﬁÇëIë
@@ -67,9 +70,20 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		}
 	}
 
+	// í„é@∫œ›ƒﬁÇëIë
+	if (!uiHide && (mousePos.x > searPos.x && mousePos.x < searPos.x + 160) && (mousePos.y > searPos.y && mousePos.y < searPos.y + 54))
+	{
+		if ((GetMouseInput() & MOUSE_INPUT_LEFT))
+		{
+			uiHide = true;
+			searFlag = true;
+		}
+	}
+
+
 	//342:235
 	Vector2Dbl testPos = f_fleetListF[0]->pos();
-	miniFfPos = Vector2Dbl((miniPos.x + 33) + (testPos.x / 11.22), (miniPos.y + 33) + (testPos.y / 16.34));
+	miniFfPos = Vector2Dbl((miniPos.x + 33) + (testPos.x / MINI_RATE_X)+(viewPos.x / MINI_RATE_X), (miniPos.y + 12) + (testPos.y / MINI_RATE_Y)+(viewPos.y/ MINI_RATE_Y));
 	// –∆œØÃﬂ
 
 
@@ -77,6 +91,11 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 	if (mapVis)
 	{
 		CheckDistina();
+	}
+	// í„é@ínì_åàÇﬂ
+	if (searFlag)
+	{
+		Searching();
 	}
 
 	for (auto obj : m_objList)
@@ -88,127 +107,32 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 				//if (other->GetIFF() == IFF::FRIEND)
 				//{
 
-					float c = sqrt(pow(other->pos().x - obj->pos().x, 2) + pow(other->pos().y - obj->pos().y, 2));
-					// çıìGîÕàÕì‡
-					if (c > 900 + 45)
-					{
-						obj->SetVisible(false);
-					}
-					if (c <= 500 + 45)
-					{
-						obj->SetVisible(true);
-					}
-					// çUåÇîÕàÕì‡
-					if (c <= 400 + 45)
-					{
-						obj->SetDamage(1);
-						//bulAngle = atan2(enemyPos.y - bulletPos.y, enemyPos.x - bulletPos.x)/* + (PI / 2)*/;
-						//m_objList.emplace_back(new Bullet(Vector2Dbl(90,90), { 90, 90 }, bulAngle));
-						//bulletFlag = true;
-					}
-					{
-						//for (auto bul : m_objList)
-						//{
-						//	if (bul->GetIFF() == IFF::BULLET)
-						//	{
-						//		float hit = sqrt(pow(bul->pos().x - obj->pos().x, 2) + pow(bul->pos().y - obj->pos().y, 2));
-						//		//// ñΩíÜ
-						//		if (hit <= 45)
-						//		{
-						//			obj->SetDamage(2);
-						//			//	bul->SetDeath(true);
-						//			//	bulletFlag = false;
-						//		}
-						//	}
-						//}
-					}
-				//}
+				float c = sqrt(pow(other->pos().x - obj->pos().x, 2) + pow(other->pos().y - obj->pos().y, 2));
+				// çıìGîÕàÕì‡
+				if (c > 900 + 45)
 				{
-					// ñCíeèàóù
-//if (bulletFlag)
-//{
-//	bulAngle = atan2(enemyPos.y - bulletPos.y, enemyPos.x - bulletPos.x)/* + (PI / 2)*/;
-
-//	bulletPos.x += cos(bulAngle) * 6;
-//	bulletPos.y += sin(bulAngle) * 6;
-//	//if (bulletPos.x > enemyPos.x)
-//	//{
-//	//	bulletPos.x -= 15 * abs(cos(bulAngle));
-//	//}
-//	//if (bulletPos.x < enemyPos.x)
-//	//{
-//	//	bulletPos.x += 15 * abs(cos(bulAngle));
-//	//}
-//	//if (bulletPos.y > enemyPos.y)
-//	//{
-//	//	bulletPos.y -= 15 * abs(sin(bulAngle));
-//	//}
-//	//if (bulletPos.y < enemyPos.y)
-//	//{
-//	//	bulletPos.y += 15 * abs(sin(bulAngle));
-//	//}
-//}
-//else
-//{
-//	bulletPos = charaPos;
-//}
-
-//if (bulletPos.x > 1280 || bulletPos.x < 0 || bulletPos.y > 800 || bulletPos.y < 0)
-//{
-//	bulletFlag = false;
-//}
+					obj->SetVisible(false);
+				}
+				if (c <= 500 + 45)
+				{
+					obj->SetVisible(true);
+				}
+				// çUåÇîÕàÕì‡
+				if (c <= 400 + 45)
+				{
+					other->SetAtInter();
+					if (other->GetAtInter() % (60 * 5) == 0)
+					{
+						PlaySoundMem(shotSe, DX_PLAYTYPE_BACK);
+						obj->SetDamage(1);
+					}
+					//bulAngle = atan2(enemyPos.y - bulletPos.y, enemyPos.x - bulletPos.x)/* + (PI / 2)*/;
+					//m_objList.emplace_back(new Bullet(Vector2Dbl(90,90), { 90, 90 }, bulAngle));
+					//bulletFlag = true;
 				}
 			}
 		}
 	}
-	{
-		//if (c <= 270 + 45)
-		//{
-		//	bulletFlag = true;
-		//}
-
-		//// ñΩíÜ
-		//if (hit <= 45)
-		//{
-		//	enemyHP -= bulDamage;
-		//	bulletFlag = false;
-		//}
-
-		//// ñCíeèàóù
-		//if (bulletFlag)
-		//{
-		//	bulAngle = atan2(enemyPos.y - bulletPos.y, enemyPos.x - bulletPos.x)/* + (PI / 2)*/;
-
-		//	bulletPos.x += cos(bulAngle) * 6;
-		//	bulletPos.y += sin(bulAngle) * 6;
-		//	//if (bulletPos.x > enemyPos.x)
-		//	//{
-		//	//	bulletPos.x -= 15 * abs(cos(bulAngle));
-		//	//}
-		//	//if (bulletPos.x < enemyPos.x)
-		//	//{
-		//	//	bulletPos.x += 15 * abs(cos(bulAngle));
-		//	//}
-		//	//if (bulletPos.y > enemyPos.y)
-		//	//{
-		//	//	bulletPos.y -= 15 * abs(sin(bulAngle));
-		//	//}
-		//	//if (bulletPos.y < enemyPos.y)
-		//	//{
-		//	//	bulletPos.y += 15 * abs(sin(bulAngle));
-		//	//}
-		//}
-		//else
-		//{
-		//	bulletPos = charaPos;
-		//}
-
-		//if (bulletPos.x > 1280 || bulletPos.x < 0 || bulletPos.y > 800 || bulletPos.y < 0)
-		//{
-		//	bulletFlag = false;
-		//}
-	}
-
 	cloPos.x++;
 	cloPos.y--;
 	if (cloPos.y < -730)
@@ -226,6 +150,9 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 
 int GameScene::Init(void)
 {
+	viewPos = Vector2Dbl(0, 0);
+	viewSpeed = 3;
+
 	charaGra = LoadGraph("image/player.png");
 	charaPos = Vector2Dbl(500, 210);
 	charaAngle = 0;
@@ -236,25 +163,25 @@ int GameScene::Init(void)
 	bulAngle = 0;
 	bulDamage = 1;
 	enemyHP = 5;
-	//m_objList.emplace_back(new Friend({ 500,210 }, { 90, 90 }, SHIP::BB, IFF::FRIEND, 5, true));
-	//m_objList.emplace_back(new Friend({ 700,210 }, { 90, 90 }, SHIP::BB, IFF::FRIEND, 5, true));
 
 	for (int no = 0; no < 4; no++)
 	{
 		f_fleetListF.emplace_back(new Friend({ 500,210}, { 90, 90 }, SHIP::BB, IFF::FRIEND, 5, true));;
 	}
 
-	m_objList.emplace_back(new Enemy({ 1300, 90 }, { 90, 90 }, SHIP::BB, IFF::ENEMY, 5, false));
+	m_objList.emplace_back(new Enemy({ 1300, 90 }, { 90, 90 }, SHIP::BB, IFF::ENEMY, 10, false));
 
 	waveBG = LoadGraph("image/sea.png");
 	cloudGra = LoadGraph("image/cloud.png");
 	cloPos = Vector2Dbl(-100, 1800);
-	//PlayMovieToGraph(waveBG);
 
 	miniDistPos = { 0,0 };
 
 	gameBGM = LoadSoundMem("bgm/game.mp3");
 	bgmStart = false;
+
+	shotSe = LoadSoundMem("se/shot.mp3");
+	rogerSe = LoadSoundMem("se/roger.wav");
 	// UIä÷òA
 	{
 		miniMap = LoadGraph("image/miniMap.png");
@@ -277,8 +204,9 @@ int GameScene::Init(void)
 		uiHide = false;
 		mapVis = false;
 		mapGra = LoadGraph("image/map.png");
-		mapPos = Vector2Dbl((920 / 2), 40);
+		mapPos = Vector2Dbl((880 / 2), 20);
 		disGra = LoadGraph("image/flag.png");
+		searFlag = false;
 	}
 
 	return 0;
@@ -289,19 +217,19 @@ void GameScene::FleetMove(void)
 	// à ínÇ™à·Ç§éû
 	if (f_fleetListF[0]->pos().x > distiPos.x)
 	{
-		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x - 1 * abs(sin(f_fleetListF[0]->GetAngle())), f_fleetListF[0]->pos().y });
+		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x - abs(0.5f * sin(f_fleetListF[0]->GetAngle())), f_fleetListF[0]->pos().y });
 	}
 	if (f_fleetListF[0]->pos().x < distiPos.x)
 	{
-		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x + 1 * abs(sin(f_fleetListF[0]->GetAngle())), f_fleetListF[0]->pos().y });
+		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x + abs(0.5f * sin(f_fleetListF[0]->GetAngle())), f_fleetListF[0]->pos().y });
 	}
 	if (f_fleetListF[0]->pos().y > distiPos.y)
 	{
-		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x, f_fleetListF[0]->pos().y - 1 * abs(cos(f_fleetListF[0]->GetAngle())) });
+		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x, f_fleetListF[0]->pos().y - abs(0.5f * cos(f_fleetListF[0]->GetAngle())) });
 	}
 	if (f_fleetListF[0]->pos().y < distiPos.y)
 	{
-		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x, f_fleetListF[0]->pos().y + 1 * abs(cos(f_fleetListF[0]->GetAngle())) });
+		f_fleetListF[0]->SetPos({ f_fleetListF[0]->pos().x, f_fleetListF[0]->pos().y + abs(0.5f * cos(f_fleetListF[0]->GetAngle())) });
 	}
 
 	// êèî∫äÕÇÃãììÆ
@@ -309,21 +237,21 @@ void GameScene::FleetMove(void)
 	{
 		f_fleetListF[no]->SetAngle(atan2(f_fleetListF[no - 1]->pos().y - f_fleetListF[no]->pos().y, f_fleetListF[no - 1]->pos().x - f_fleetListF[no]->pos().x) + (PI / 2));
 		// à ínÇ™à·Ç§éû
-		if (f_fleetListF[no]->pos().x > f_fleetListF[0]->pos().x + (120 * no) * abs(sin(f_fleetListF[0]->GetAngle())))
+		if (f_fleetListF[no]->pos().x > f_fleetListF[no - 1]->pos().x + abs((120 * sin(f_fleetListF[no - 1]->GetAngle()))))
 		{
-			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x - 1 * abs(sin(f_fleetListF[no]->GetAngle())), f_fleetListF[no]->pos().y });
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x - abs(0.5f * (sin(f_fleetListF[no]->GetAngle()))), f_fleetListF[no]->pos().y });
 		}
-		if (f_fleetListF[no]->pos().x < f_fleetListF[0]->pos().x - (120 * no) * abs(sin(f_fleetListF[0]->GetAngle())))
+		if (f_fleetListF[no]->pos().x < f_fleetListF[no - 1]->pos().x - abs((120 * sin(f_fleetListF[no - 1]->GetAngle()))))
 		{
-			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x + 1 * abs(sin(f_fleetListF[no]->GetAngle())), f_fleetListF[no]->pos().y });
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x + abs(0.5f * (sin(f_fleetListF[no]->GetAngle()))), f_fleetListF[no]->pos().y });
 		}
-		if (f_fleetListF[no]->pos().y > f_fleetListF[0]->pos().y + (120 * no) * abs(cos(f_fleetListF[0]->GetAngle())))
+		if (f_fleetListF[no]->pos().y > f_fleetListF[no - 1]->pos().y + abs(120 * cos(f_fleetListF[no - 1]->GetAngle())))
 		{
-			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y - 1 * abs(cos(f_fleetListF[no]->GetAngle())) });
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y - abs(0.5f * (cos(f_fleetListF[no]->GetAngle()))) });
 		}
-		if (f_fleetListF[no]->pos().y < f_fleetListF[0]->pos().y - (120 * no) * abs(cos(f_fleetListF[0]->GetAngle())))
+		if (f_fleetListF[no]->pos().y < f_fleetListF[no - 1]->pos().y - abs(120 * cos(f_fleetListF[no - 1]->GetAngle())))
 		{
-			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y + 1 * abs(cos(f_fleetListF[no]->GetAngle())) });
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y + abs(0.5f * (cos(f_fleetListF[no]->GetAngle()))) });
 		}
 	}
 
@@ -332,22 +260,89 @@ void GameScene::FleetMove(void)
 void GameScene::CheckDistina(void)
 {
 	Vector2Dbl testPos = f_fleetListF[0]->pos();
-	miniShipPos = Vector2Dbl(mapPos.x + (testPos.x / 3.84), mapPos.y + (testPos.y / 3.84));
+	miniShipPos = Vector2Dbl(mapPos.x + (testPos.x / MAP_RATE) + (viewPos.x / MAP_RATE), mapPos.y + (testPos.y / MAP_RATE) +(viewPos.y / MAP_RATE));
 	if ((GetMouseInput() & MOUSE_INPUT_RIGHT))
 	{
 		mapVis = false;
 		uiHide = false;
 	}
 	// ç∂∏ÿØ∏ÇµÇΩÇ∆Ç´
-	if ((mousePos.x > mapPos.x && mousePos.x < mapPos.x + 1000) && (mousePos.y > mapPos.y && mousePos.y < mapPos.y + 1000))
+	if ((mousePos.x > mapPos.x +20  && mousePos.x < mapPos.x +20 + 1000) && (mousePos.y > mapPos.y+20 && mousePos.y < mapPos.y+20 + 1000))
 	{
 		if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 		{
 			miniDistPos = mousePos;
-			distiPos = Vector2Dbl((mousePos.x - mapPos.x) * 3.84, (mousePos.y - mapPos.y) * 3.84);					// œØÃﬂì‡Ç≈ëIëÇµÇΩínì_Çïúå≥
+			distiPos = Vector2Dbl((mousePos.x - mapPos.x) * MAP_RATE, (mousePos.y - mapPos.y) * MAP_RATE);					// œØÃﬂì‡Ç≈ëIëÇµÇΩínì_Çïúå≥
 			f_fleetListF[0]->SetAngle(atan2(mousePos.y - miniShipPos.y, mousePos.x - miniShipPos.x) + (PI / 2));
 			mapVis = false;
 			uiHide = false;
+			PlaySoundMem(rogerSe, DX_PLAYTYPE_BACK);
+		}
+	}
+}
+
+void GameScene::Searching(void)
+{
+	Vector2Dbl testPos = f_fleetListF[0]->pos();
+	if ((GetMouseInput() & MOUSE_INPUT_RIGHT))
+	{
+		searFlag = false;
+		uiHide = false;
+	}
+	// ç∂∏ÿØ∏ÇµÇΩÇ∆Ç´
+	if ((mousePos.x > mapPos.x + 20 && mousePos.x < mapPos.x + 20 + 1000) && (mousePos.y > mapPos.y+20 && mousePos.y < mapPos.y+20 + 1000))
+	{
+		if ((GetMouseInput() & MOUSE_INPUT_LEFT))
+		{
+			searDist = mousePos;
+			searFlag = false;
+			uiHide = false;
+			PlaySoundMem(rogerSe, DX_PLAYTYPE_BACK);
+		}
+	}
+
+}
+
+// éãì_à⁄ìÆ
+void GameScene::ViewMove(void)
+{
+	if (viewPos.x <= 1920 && mousePos.x > 1920 - 10)
+	{
+		viewPos.x += viewSpeed;
+		distiPos.x -= viewSpeed;
+		for (int no = 0; no < 4; no++)
+		{
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x - viewSpeed, f_fleetListF[no]->pos().y });
+		}
+	}
+	if (viewPos.x >= 0 && mousePos.x < 10)
+	{
+		viewPos.x -= viewSpeed;
+		distiPos.x += viewSpeed;
+
+		for (int no = 0; no < 4; no++)
+		{
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x + viewSpeed, f_fleetListF[no]->pos().y });
+		}
+	}
+	if (viewPos.y <= 3840 - 1080 && mousePos.y > 1080 - 10)
+	{
+		viewPos.y += viewSpeed;
+		distiPos.y -= viewSpeed;
+
+		for (int no = 0; no < 4; no++)
+		{
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y - viewSpeed });
+		}
+	}
+	if (viewPos.y >= 0 && mousePos.y < 10)
+	{
+		viewPos.y -= viewSpeed;
+		distiPos.y += viewSpeed;
+
+		for (int no = 0; no < 4; no++)
+		{
+			f_fleetListF[no]->SetPos({ f_fleetListF[no]->pos().x, f_fleetListF[no]->pos().y + viewSpeed });
 		}
 	}
 }
@@ -361,15 +356,6 @@ bool GameScene::GameDraw(void)
 {
 	DrawRotaGraph(960, 540, 2.5f, 0, waveBG, true);
 
-	//if(GetMovieStateToGraph(waveBG) == 1)
-	//{
-	//	// ÉÄÅ[ÉrÅ[âfëúÇâÊñ Ç¢Ç¡ÇœÇ¢Ç…ï`âÊÇµÇ‹Ç∑
-	//	DrawExtendGraph(0, 0, 1920, 1080, waveBG, FALSE);
-
-	//	// ÉEÉGÉCÉgÇÇ©ÇØÇ‹Ç∑ÅAÇ†Ç‹ÇËë¨Ç≠ï`âÊÇ∑ÇÈÇ∆âÊñ Ç™ÇøÇÁÇ¬Ç≠Ç©ÇÁÇ≈Ç∑
-	//	WaitTimer(17);
-	//}
-
 	for (auto& obj : m_objList)
 	{
 		obj->Obj::Draw();
@@ -381,7 +367,7 @@ bool GameScene::GameDraw(void)
 	}
 
 
-	//DrawRotaGraph(charaPos.x, charaPos.y, 0.5f, charaAngle, charaGra, true);
+	//DrawRotaGraph(500, 500, 0.5f, 90/PI, charaGra, true);
 	//DrawCircle(charaPos.x, charaPos.y, 270, GetColor(0, 255, 255), false);
 	//if (enemyHP > 0)
 	//{
@@ -407,12 +393,18 @@ bool GameScene::GameDraw(void)
 		DrawGraph(retPos.x, retPos.y, retIco, true);
 
 		DrawCircle(miniFfPos.x, miniFfPos.y, (25 / 5), GetColor(0, 255, 0), true);
+		DrawBox(((viewPos.x/MINI_RATE_X) + 33), ((viewPos.y/ MINI_RATE_Y) + 12 +(1080-275)), (((viewPos.x / MINI_RATE_X) + 33) + (1920 / MINI_RATE_X)), (((viewPos.y/ MINI_RATE_Y) + 12 + (1080 - 275)) + (1080 / MINI_RATE_Y)), GetColor(255, 0, 255), false);
 	}
 	if (mapVis)
 	{
 		DrawGraph(mapPos.x, mapPos.y, mapGra, true);
-		DrawCircle(miniShipPos.x, miniShipPos.y, (25 / 3.84), GetColor(0, 255, 0), true);
-		DrawRotaGraph(miniDistPos.x+20, miniDistPos.y-20, 0.2f, 0, disGra, true);
+		DrawBox(mapPos.x + (viewPos.x / MAP_RATE)+25, mapPos.y +(viewPos.y / MAP_RATE)+25, (mapPos.x + (viewPos.x / MAP_RATE) + (1920 / MAP_RATE))-25, (mapPos.y, +(viewPos.y / MAP_RATE) + (1080 / MAP_RATE))+25, GetColor(255, 0, 255), false);
+		DrawCircle(miniShipPos.x, miniShipPos.y+20, (25 / MAP_RATE), GetColor(0, 255, 0), true);
+		DrawRotaGraph(miniDistPos.x+20, miniDistPos.y, 0.2f, 0, disGra, true);
+	}
+	if (searFlag)
+	{
+		DrawGraph(mapPos.x, mapPos.y, mapGra, true);
 	}
 
 	return true;

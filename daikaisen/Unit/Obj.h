@@ -39,6 +39,7 @@ public:
 	virtual void Draw(void);
 	virtual IFF GetIFF(void) = 0;
 	virtual SHIP GetShipType(void) = 0;
+	virtual int GetAtInter(void) = 0;
 	virtual void Updata(void) = 0;
 
 	const Vector2Dbl pos(void) const;			// m_pos‚ÌGetŠÖ”
@@ -48,6 +49,7 @@ public:
 	void SetDamage(int damage);
 	void SetDeath(bool death);
 	void SetVisible(bool visible);
+	void SetAtInter(void);
 	bool isDeath(void) { return m_death; };		// m_death‚ÌGetŠÖ”
 
 	Vector2Dbl GetShipPos(void);
@@ -64,5 +66,6 @@ protected:
 	int m_HP;											// ‘Ï‹v’l
 	bool m_death;										// ‚â‚Á‚½‚©Ì×¸Ş
 	bool m_visible;										// ‰Â‹‰»Ì×¸Ş
+	int m_atInter;										// UŒ‚—p²İÀ°ÊŞÙ
 };
 

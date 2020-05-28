@@ -22,6 +22,8 @@ private:
 	int Init(void);
 	void FleetMove(void);		// 艦隊移動処理
 	void CheckDistina(void);	// 目的地
+	void Searching(void);		// 偵察機発進
+	void ViewMove(void);		// 視点移動
 	bool CheckGameEnd(void);	// 勝敗をチェック		
 	bool GameDraw(void);		// 描画処理
 
@@ -60,6 +62,7 @@ private:
 
 	// UI関連
 	int gameBGM;
+	int shotSe;
 	bool bgmStart;
 	int miniMap;
 	Vector2Dbl miniPos;
@@ -86,4 +89,12 @@ private:
 	Vector2Dbl mapPos;
 	Vector2Dbl miniShipPos;
 	Vector2Dbl miniFfPos;
+
+	Vector2Dbl viewPos;		// 視界
+	double viewSpeed;
+
+	bool searFlag;			// 偵察用
+	Vector2 searDist;
+
+	int rogerSe;
 };
