@@ -151,6 +151,7 @@
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\SceneMng.cpp" />
+    <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Unit\Bullet.cpp" />
     <ClCompile Include="Unit\Enemy.cpp" />
     <ClCompile Include="Unit\Friend.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\SceneMng.h" />
+    <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="Unit\Bullet.h" />
     <ClInclude Include="Unit\Enemy.h" />
     <ClInclude Include="Unit\Friend.h" />

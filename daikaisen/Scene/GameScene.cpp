@@ -15,9 +15,9 @@
 #include "../Common/GameCtl.h"
 
 #define PI (3.1415926535)
-#define MAP_RATE (3840/1000)
-#define MINI_RATE_X (3840/342)
-#define MINI_RATE_Y (3840/233)
+#define MAP_RATE (3.84)		// 3840/1000
+#define MINI_RATE_X (11.2280701754)	// 3840/342
+#define MINI_RATE_Y (16.4806866952)				// 3840/233
 
 GameScene::GameScene()
 {
@@ -57,9 +57,6 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 		obj->Updata();
 	}
 
-	ViewMove();
-	FleetMove();		// 艦隊移動
-
 	// 移動ｺﾏﾝﾄﾞを選択
 	if (!uiHide && (mousePos.x > movePos.x && mousePos.x < mousePos.x + 160) && (mousePos.y > movePos.y && mousePos.y < movePos.y + 54))
 	{
@@ -97,6 +94,10 @@ unique_Base GameScene::UpDate(unique_Base own, const GameCtl& controller)
 	{
 		Searching();
 	}
+
+	ViewMove();
+	FleetMove();		// 艦隊移動
+
 
 	for (auto obj : m_objList)
 	{
@@ -272,7 +273,7 @@ void GameScene::CheckDistina(void)
 		if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 		{
 			miniDistPos = mousePos;
-			distiPos = Vector2Dbl((mousePos.x - mapPos.x) * MAP_RATE, (mousePos.y - mapPos.y) * MAP_RATE);					// ﾏｯﾌﾟ内で選択した地点を復元
+			distiPos = Vector2Dbl(((mousePos.x - mapPos.x) * MAP_RATE)-viewPos.x, ((mousePos.y - mapPos.y) * MAP_RATE)-viewPos.y);					// ﾏｯﾌﾟ内で選択した地点を復元
 			f_fleetListF[0]->SetAngle(atan2(mousePos.y - miniShipPos.y, mousePos.x - miniShipPos.x) + (PI / 2));
 			mapVis = false;
 			uiHide = false;

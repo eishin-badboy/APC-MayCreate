@@ -1,6 +1,7 @@
 #include "Dxlib.h"	// DxLib×²ÌÞ×Ø‚ðŽg—p‚·‚é
 #include "../Common/GameCtl.h"
 #include "GameScene.h"
+#include "TitleScene.h"
 #include "SceneMng.h"
 
 
