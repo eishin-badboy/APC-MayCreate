@@ -19,14 +19,14 @@ class Ship
 public:
 	Ship();
 	~Ship();
-	void Draw(void);
-	void Updata(void);
+	void Draw(void);			// 描画
+	void Updata(void);			//　情報更新
 
-	Vector2 GetSize(void);
+	Vector2 GetSize(void);		// ｻｲｽﾞの取得
 
 private:
-	bool Init(void);
-	double m_speed;
+	bool Init(void);			// 初期化
+	double m_speed;				// 移動速度
 
 };
 

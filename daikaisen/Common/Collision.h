@@ -12,6 +12,6 @@ class Collision
 public:
 	Collision();
 	~Collision();
-	bool Updata(std::vector<shared_Obj> objList);
+	bool Updata(std::vector<shared_Obj> objList);		// î•ñXV
 };
 

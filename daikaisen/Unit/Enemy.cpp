@@ -38,10 +38,20 @@ int Enemy::GetAtInter(void)
 
 void Enemy::Updata(void)
 {
-	if (m_HP <= 0)
-	{
-		m_death = true;
-	}
+	//if (m_HP <= 0)
+	//{
+	//	SetDeath(true);
+	//}
+}
+
+bool Enemy::GetDeath(void)
+{
+	return m_death;
+}
+
+Vector2Dbl Enemy::GetDistPos(void)
+{
+	return m_distPos;
 }
 
 Vector2 Enemy::GetSize(void)
@@ -52,10 +62,12 @@ Vector2 Enemy::GetSize(void)
 bool Enemy::Init(void)
 {
 	m_graph = LoadGraph("image/air.png");
+	m_explo = LoadGraph("image/blast.png");
 	m_atInter = 0;
 
 	m_angle = 0;
 	m_death = false;
+	m_animCnt = 0;
 
 	return false;
 }

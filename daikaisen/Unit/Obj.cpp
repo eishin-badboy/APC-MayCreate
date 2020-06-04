@@ -17,12 +17,16 @@ void Obj::Draw(void)
 	}
 	DrawCircle(m_pos.x, m_pos.y, 400, GetColor(0, 255, 255), false);
 	DrawCircle(m_pos.x, m_pos.y, 500, GetColor(255, 0, 0), false);
-
 }
 
 const Vector2Dbl Obj::pos(void) const
 {
 	return m_pos;
+}
+
+void Obj::SetDistPos(Vector2Dbl distPos)
+{
+	m_distPos = distPos;
 }
 
 double Obj::GetAngle(void)
@@ -50,6 +54,11 @@ void Obj::SetDeath(bool death)
 	m_death = death;
 }
 
+bool Obj::GetDeath(void)
+{
+	return m_death;
+}
+
 void Obj::SetVisible(bool visible)
 {
 	m_visible = visible;
@@ -63,4 +72,14 @@ void Obj::SetAtInter(void)
 Vector2Dbl Obj::GetShipPos(void)
 {
 	return m_pos;
+}
+
+void Obj::SetTurn(bool turn)
+{
+	m_turnFlag = turn;
+}
+
+bool Obj::GetTurn(void)
+{
+	return m_turnFlag;
 }

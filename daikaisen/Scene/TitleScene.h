@@ -8,25 +8,25 @@ class TitleScene : public BaseScene
 public:
 	TitleScene();
 	~TitleScene();
-	unique_Base UpDate(unique_Base own, const GameCtl& controller);
+	unique_Base UpDate(unique_Base own, const GameCtl& controller);		// î•ñXV
 
 
 private:
-	Vector2 sSize;				// ‰æ–Ê»²½Ş
+	Vector2 sSize;			// ‰æ–Ê»²½Ş
 
-	int Init(void);
-	void Draw(void);
+	int Init(void);			// ‰Šú‰»
+	void Draw(void);		// •`‰æ
 
-	int titMov;
-	int rogo;
-	int titBGM;
-	bool fadeFlag;
+	int titMov;				// ”wŒi‚Ì“®‰æ
+	int rogo;				// ¹Ş°Ñ‚ÌÀ²ÄÙÛºŞ
+	int titBGM;				// À²ÄÙ‰æ–Ê‚ÌBGM
+	bool fadeFlag;			// Ìª°ÄŞÌ×¸Ş
 
-	int flash;
-	int flashCnt;
-	int moveEffect;
-	double angle;
-	double rate;
-	int fadeCnt;
+	int flash;				// ¸Ø¯¸Ã‘£‚Ì‰æ‘œ
+	int flashCnt;			// Ã‘£‚Ì“_–Å¶³İÄ
+	int moveEffect;			// ¼°İ‘JˆÚ‚Ì´Ìª¸Ä
+	double angle;			// Šp“x
+	double rate;			// Šg‘å”ä—¦
+	int fadeCnt;			// Ìª°ÄŞŠÔ
 };
 
